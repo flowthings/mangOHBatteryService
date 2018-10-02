@@ -1,0 +1,39 @@
+version: 1.0
+sandboxed: false
+start: auto
+
+executables:
+{
+    battery = ( batteryServiceComponent )
+}
+
+processes:
+{
+    envVars:
+    {
+        LE_LOG_LEVEL = INFO
+    }
+    run:
+    {
+        ( battery )
+    }
+    faultAction: restartApp
+}
+requires:
+{
+    configTree:
+    {
+        [rw] .
+    }
+}
+
+extern:
+{
+    battery.batteryServiceComponent.ma_battery
+    battery.batteryServiceComponent.ma_adminbattery
+}
+
+bindings:
+{
+    battery.batteryServiceComponent.dhubIO -> dataHub.io
+}
